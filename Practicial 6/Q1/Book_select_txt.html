@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<head>
+   <title>BookShop</title>
+   <style>
+      h1,
+      h3 {
+         font-family: Times New Roman, Arial
+      }
+
+      .numbers {
+         text-align: right;
+         background-color: lightyellow
+      }
+
+      .numbers1 {
+         text-align: right;
+         background-color: pink
+      }
+
+
+      @media print {
+
+         header,
+         input[type='reset'],
+         input[type='submit'],
+         input[type='button'] {
+            display: none;
+
+         }
+      }
+   </style>
+   <script type="text/javascript" src="general.js"> </script>
+   <script type="text/javascript">
+      function display(obj, num) {
+         //console.log(obj, num)
+         // obj refers to the select form control
+         // num refers to the row in table
+
+         // example: row1 function called is display([select element],1), num is 1, then price will be "Price1"
+         // example: row2 function called is display([select element],2), num is 2, then price will be "Price2"
+         // example: row3 function called is display([select element],3), num is 3, then price will be "Price3"
+         var price = "Price" + num;
+         var qty = "Quantity" + num;
+         var amount = "Amount" + num;
+
+
+         var theIndex = obj.selectedIndex;
+         console.log("selected ", theIndex)
+         // <select id="desc1" name="desc1" onchange="display(this,1);">
+         //    <option>Select an item</option>                     this is index 0
+         //    <option value="112.00">HTML and CSS</option>        this is index 1
+         //    <option value="90.00">JavaScript</option>           this is index 2
+         //    <option value="100.00">Expression Web</option>      this is index 3
+         // </select>
+
+         var price_element = document.getElementById(price);
+         var qty_element = document.getElementById(qty);
+         var amount_element = document.getElementById(amount);
+
+         if (theIndex == 0) {
+            price_element.value = 0;
+            qty_element.disabled = true;
+
+            // resetting the value of amount to 0
+            amount_element.value = "0.00";
+            calculate();
+
+         } else {
+            price_element.value = obj.options[theIndex].value;
+            qty_element.disabled = false;
+
+            // call the calculation function to recalculate the value of amount (quantity * price) 
+            sub(qty_element, num);
+         }
+
+
+      }
+      // this function called on user selecting the quantity
+      // will calculate the price*quantity and put into amount 
+      function sub(obj, num) {
+         var price = "Price" + num;
+         var qty = "Quantity" + num;
+         var amount = "Amount" + num;
+         // mathematically 
+         // amount = price * quantity
+         // the following should change according to row
+         // row1 : Price1, Quantity1, Amount1
+         // row2 : Price2, Quantity2, Amount2
+         // row3 : Price3, Quantity3, Amount3
+         var price = document.getElementById(price)
+         var qty = document.getElementById(qty)
+         var amount = document.getElementById(amount)
+         var $amount = price.value*qty
+         amount.value = price.value * qty.value
+
+         // update the total value
+         calculate();
+      }
+
+      // calculating the total
+      function calculate() {
+         var amount1 = document.getElementById("Amount1")
+         var amount2 = document.getElementById("Amount2")
+         var amount3 = document.getElementById("Amount3")
+         var totalAmount = document.getElementById("totalAmount")
+         
+         var totalAmount$$$ =
+            Number(amount1.value) +
+            Number(amount2.value) +
+            Number(amount3.value)
+            //This will sum up amount 1,2,3
+
+            totalAmount.value
+      }
+      function quantity() {
+         for (num = 0; num <= 10; num++) {
+            document.write("<option>" + num + "</option>");
+         }
+
+      }
+
+      function cancelorder() {
+         //alert("Are you sure you want to cancel this order?")
+         var userResult = prompt("Are you sure you want to cancel this order?")
+
+         // if user wants to cancel page, reload page
+         if (userResult == "yes") {
+            location.reload()
+
+         } else {
+
+         }
+      }
+   </script>
+
+</head>
+
+<body style="background-color:lightblue; color:brown">
+   <form name="book" id="book" action="Book_select_latest.html" method="get">
+      <table width="600">
+         <tr>
+            <td colspan=3>
+               <h1 style="margin-bottom:0px">CPS BookShop(M)Sdn.Bhd.</h1>
+            </td>
+         </tr>
+         <tr>
+            <td colspan=3>
+               <hr>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <h4 style="margin-bottom:0px">Order Form - <b>Cash on Delivery</b></h4>
+            </td>
+            <td align=right>Order Date:</td>
+            <td><input type="text" name="date" id="date" size="10" class=numbers disabled /></td>
+         </tr>
+
+         <tr>
+            <td colspan=3>
+               <hr>
+            </td>
+         </tr>
+
+         <tr>
+            <td>Customer Name:</td>
+            <td><input type="text" name="customerName" id="customerName" size="30" required /></td>
+         </tr>
+
+         <tr>
+            <td>Tel No:</td>
+            <td><input type="tel" name="telNo" id="telNo" size="10" required /></td>
+         </tr>
+
+         <tr>
+            <td colspan=3>
+               <hr>
+            </td>
+         </tr>
+      </table>
+
+      <table border="1" width=445>
+         <tr>
+            <th>Book</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Amount (RM)</th>
+         </tr>
+         <tr>
+            <td>1.
+               <select id="desc1" name="desc1" onchange="display(this,1);">
+                  <option>Select an item</option>
+                  <option value="112.00">HTML and CSS</option>
+                  <option value="90.00">JavaScript</option>
+                  <option value="100.00">Expression Web</option>
+               </select>
+            </td>
+            <td><input type="text" name="Price1" id="Price1" readonly size=8 /></td>
+            <td>
+               <select name="Quantity1" id="Quantity1" onchange="sub(this,1);" disabled>
+                  <script type="text/javascript">
+                     quantity();
+                  </script>
+               </select>
+            </td>
+            <td><input type="text" name="Amount1" id="Amount1" size=10 class=numbers value="0.00"
+                  onchange="calculate();" disabled /></td>
+         </tr>
+         <tr>
+            <td>2.
+               <select id="desc2" name="desc2" onchange="display(this,2);">
+                  <option>Select an item</option>
+                  <option value="112.00">HTML and CSS</option>
+                  <option value="90.00">JavaScript</option>
+                  <option value="100.00">Expression Web</option>
+               </select>
+            </td>
+            <td><input type="text" name="Price2" id="Price2" readonly size=8 /></td>
+            <td>
+               <select name="Quantity2" id="Quantity2" onchange="sub(this,2);" disabled>
+                  <script type="text/javascript">
+                     quantity();
+                  </script>
+               </select>
+
+            </td>
+            <td><input type="text" name="Amount2" id="Amount2" size=10 class=numbers value="0.00"
+                  onchange="calculate();" disabled /></td>
+         </tr>
+         <tr>
+            <td>3.
+               <select id="desc3" name="desc3" onchange="display(this,3);">
+                  <option>Select an item</option>
+                  <option value="112.00">HTML and CSS</option>
+                  <option value="90.00">JavaScript</option>
+                  <option value="100.00">Expression Web</option>
+               </select>
+            </td>
+            <td><input type="text" name="Price3" id="Price3" readonly="readonly" size=8 /></td>
+            <td>
+               <select name="Quantity3" id="Quantity3" onchange="sub(this,3);" disabled>
+                  <script type="text/javascript">
+                     quantity();
+                  </script>
+               </select>
+
+            </td>
+            <td><input type="text" name="Amount3" id="Amount3" size=10 class=numbers value="0.00"
+                  onchange="calculate();" disabled /></td>
+         </tr>
+
+         <tr>
+            <td align=right width=360 colspan=3>Total Amount:</td>
+            <td width=85><input type="text" name="totalAmount" id="totalAmount" size="10" value="0.00" disabled /></td>
+         </tr>
+      </table>
+
+      <hr width="600" align="left" />
+      <input type="Submit" value="Submit Order" />
+      &nbsp;&nbsp;
+      <input type="button" value="Cancel Order" onclick="cancelorder()" />
+      &nbsp;&nbsp
+
+   </form>
+</body>
+
+</html>

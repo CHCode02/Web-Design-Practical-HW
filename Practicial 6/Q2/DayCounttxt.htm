@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<head>
+<title>Day Count</title>
+    <style>
+        .hidden{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<div style="font-family:verdana; text-align:center;border:black 1px solid;">
+<h1>Countdown to New Year 2021</h1>
+<div>
+    Today is
+    <span id="mm">mm</span>
+    <span id="dd">dd</span>,
+    <span id="yyyy">yyyy</span>
+</div>
+
+<div id="diff_positive" class="hidden">
+    Only
+    <span id="day_left">dd_left</span>
+    <span>until New Year 2021</span>
+</div>
+
+<div id="diff_negative" class="hidden">
+   You have already pass year 2021
+</div>
+
+<div id="diff_0"class="hidden">
+   Happy New Yearm,its now 2021!
+</div>
+<br>
+<br>
+<span style="font-size: 24px"> 
+<script type="text/javascript">
+//referencing the html element in document
+
+var dd = document.getElementById("mm");
+var dd_left = document.getElementById("day_left");
+var mm= document.getElementById("dd");
+var yyyy = document.getElementById("yyyy");
+
+var diff_positive= document.getElementById("diff_positive");
+var diff_negative= document.getElementById("diff_negative");
+var diff_0= document.getElementById("diff_0");
+//setting the content dynamically via
+/*
+dd.textContent="hello from dd"
+mm.textContent="hello from mm"
+yyyy.textContent="hello from yyyy"
+dd_left.textContent="dd_left placeholder"
+*/
+
+//create cusrrent date object
+//js month start with 0
+//0 - Jan
+//1 - Feb
+//2 - Mar
+//...
+//11 - Dec
+var mm_translate = [
+    "January",  //index: 0
+    "Febuary",  //index: 1
+    "March",    //index: 2
+    "April",    //index: 3
+    "May",      //index: 4
+    "June",     //index: 5
+    "July",     //index: 6
+    "Ogos",     //index: 7
+    "September",//index: 8
+    "October",  //index: 9
+    "November", //index: 10
+    "December"  //index: 11
+]
+var js_date = new Date();
+js_dd = js_date.getDate();
+js_mm = js_date.getMonth();
+js_yyyy = js_date.getFullYear();
+
+//calculate daysleft
+//how many mintes in a day?     24h*60m
+//how many second in a day?     24h*60m*60s
+//how many milisecond in a day? 24h*60m*60s*1000ms
+var mili_now=new Date().getTime();
+var mili_2021= new Date(2021,0,1).getTime();
+
+var diff_in_mili = mili_2021 - mili_now;
+var mili_in_a_day = 24 *60* 60* 1000;
+var diff_in_days = diff_in_mili / mili_in_a_day;
+
+dd.textContent= js_dd
+mm.textContent=js_mm+1
+//mm.textContent= mm_translate[js_mm]
+yyyy.textContent= js_yyyy
+
+
+//handling date less than 2021
+if(diff_in_days>0){
+  diff_positive.className ="show"
+ 
+}
+//handling on 2021 Jan 1 itself
+
+else if(diff_in_days==0){
+    diff_negative.className ="show"
+}
+//handling on dates pass 2021 Jan 1
+else{
+    diff_0.className ="show"
+}
+yyyy.textContent= js_yyyy
+dd_left.textContent = Math.round(diff_in_days)
+// display today's date in "March 12, 2021" format
+
+
+
+// display daysleft until New Year
+
+	  
+
+</script>
+</span> 
+</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+data payload to be sent to server (as per action="http://...")
+
+"name" attribute of input will serve as the key 
+for data payload when send to server
+{
+customerName
+
+}
